@@ -43,7 +43,7 @@ A stunning, modern web application that displays Islamic prayer times and daily 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/islamic-prayer-app.git
+   git clone https://github.com/zayeefzahid/islamic-prayer-app.git
    cd islamic-prayer-app
    ```
 
