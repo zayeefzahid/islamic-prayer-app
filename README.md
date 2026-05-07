@@ -1,226 +1,78 @@
-# 🕌 Islamic Prayer Times & Quran - Modern Glassmorphism UI
+# Islamic Prayer App
 
-A stunning, modern web application that displays Islamic prayer times and daily Quranic verses with a next-level glassmorphism design. Built with React, featuring animated gradients, floating particles, and smooth transitions.
+A calm, mobile-first Islamic prayer times web app built with React, Vite, and Tailwind CSS. The interface is designed for repeated daily use: the next prayer is prominent, the remaining time is clear, and the full daily schedule stays easy to scan.
 
-![Islamic Prayer Times App](https://img.shields.io/badge/React-18.x-blue?style=for-the-badge&logo=react)
-![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11.x-0055FF?style=for-the-badge&logo=framer)
+## Features
 
-## ✨ Features
+- Next-prayer hero with live countdown and current-prayer context
+- Daily schedule with current, next, completed, and upcoming states
+- Browser geolocation with a New York fallback if permission is unavailable
+- Prayer times from the Aladhan Prayer Times API
+- Calculation convention and Asr school settings
+- 12-hour and 24-hour clock formats
+- Light, dark, and system theme preferences
+- Loading skeletons, fallback notices, and error recovery states
+- Small daily Quran reflection with optional recitation audio
 
-### 🎨 Next-Level Design
-- **Glassmorphism UI** - Modern glass-like transparent effects with backdrop blur
-- **Gradient Animations** - Beautiful animated gradient backgrounds and text
-- **Floating Particles** - Dynamic particle animations in the background
-- **Smooth Transitions** - Buttery smooth animations using Framer Motion
-- **Responsive Design** - Perfect on desktop, tablet, and mobile devices
+## Stack
 
-### 🕌 Islamic Features
-- **Prayer Times** - Displays all 5 daily prayers with beautiful icons
-- **Location Detection** - Automatic location detection for accurate prayer times
-- **Quranic Verses** - Daily random verses with multiple language support
-- **Audio Recitation** - Play Quranic verse audio recitations
-- **Multi-language Support** - English, Arabic, Bengali, and Urdu translations
+- React 19
+- Vite 6
+- Tailwind CSS 4
+- Lucide React icons
+- shadcn-style UI primitives available in `src/components/ui`
 
-### 🎯 Technical Features
-- **Modern React 18** with hooks and functional components
-- **TypeScript-ready** architecture
-- **Vite** for lightning-fast development
-- **TailwindCSS** for utility-first styling
-- **Framer Motion** for advanced animations
-- **TSParticles** for particle effects
-- **Responsive Grid Layout** with CSS Grid and Flexbox
-- **Islamic Color Palette** with gold, blue, and green themes
+## Project Structure
 
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+ 
-- pnpm (recommended) or npm
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/zayeefzahid/islamic-prayer-app.git
-   cd islamic-prayer-app
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pnpm install
-   # or
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   pnpm run dev
-   # or
-   npm run dev
-   ```
-
-4. **Open in browser**
-   ```
-   http://localhost:5173
-   ```
-
-## 🏗️ Project Structure
-
-```
+```text
 islamic-prayer-app/
-├── public/                 # Static assets
+├── public/
 ├── src/
-│   ├── components/         # React components
-│   │   ├── ui/            # shadcn/ui components
-│   │   └── ParticleBackground.jsx
-│   ├── assets/            # Images and static files
-│   ├── hooks/             # Custom React hooks
-│   ├── lib/               # Utility functions
-│   ├── App.jsx            # Main application component
-│   ├── App.css            # Global styles and animations
-│   ├── index.css          # Base styles
-│   └── main.jsx           # Application entry point
-├── package.json           # Dependencies and scripts
-├── vite.config.js         # Vite configuration
-├── tailwind.config.js     # TailwindCSS configuration
-└── README.md              # This file
+│   ├── components/
+│   │   ├── AppHeader.jsx
+│   │   ├── DailyReflection.jsx
+│   │   ├── NextPrayerHero.jsx
+│   │   ├── PrayerSchedule.jsx
+│   │   ├── SettingsPanel.jsx
+│   │   ├── StatusStates.jsx
+│   │   └── ui/
+│   ├── lib/
+│   │   ├── prayer-times.js
+│   │   └── utils.js
+│   ├── services/
+│   │   └── prayer-api.js
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+└── vite.config.js
 ```
 
-## 🎨 Design System
+## Getting Started
 
-### Color Palette
-- **Primary Gold**: `#d4af37` - Islamic gold for highlights
-- **Ocean Blue**: `#0f4c75` - Deep blue for backgrounds
-- **Sky Blue**: `#3282b8` - Medium blue for gradients
-- **Light Blue**: `#bbe1fa` - Light blue for accents
-- **Emerald**: `#00b894` - Green for success states
+```bash
+npx pnpm@10.4.1 install
+npx pnpm@10.4.1 dev
+```
 
-### Typography
-- **Headings**: Bold, gradient text with golden colors
-- **Body**: Clean, readable white text on glass backgrounds
-- **Arabic Text**: Larger font size with right-to-left alignment
-- **Times**: Monospace font for prayer times
+Open `http://localhost:5173`.
 
-### Animations
-- **Gradient Shift**: 3s infinite background animation
-- **Float**: 6s vertical floating animation
-- **Pulse Glow**: 2s glowing effect for important elements
-- **Framer Motion**: Smooth enter/exit transitions
+## Scripts
 
-## 🔧 Configuration
+```bash
+npx pnpm@10.4.1 lint
+npx pnpm@10.4.1 build
+npx pnpm@10.4.1 preview
+```
 
-### API Integration
-The app currently uses mock data for development. To integrate with real APIs:
+## API Configuration
 
-1. **Replace mock data** in `App.jsx` with actual API calls
-2. **Configure CORS** for cross-origin requests
-3. **Add error handling** for network failures
-4. **Implement caching** for better performance
+The app uses the public Aladhan endpoint by default:
 
-### Environment Variables
-Create a `.env` file for API configuration:
 ```env
-VITE_PRAYER_API_URL=your_prayer_api_url
-VITE_QURAN_API_URL=your_quran_api_url
-VITE_LOCATION_API_URL=your_location_api_url
+VITE_PRAYER_API_URL=https://api.aladhan.com/v1
 ```
 
-## 📱 Responsive Breakpoints
-
-- **Mobile**: 320px - 768px
-- **Tablet**: 768px - 1024px  
-- **Desktop**: 1024px+
-
-The app uses TailwindCSS responsive utilities:
-- `sm:` - Small screens (640px+)
-- `md:` - Medium screens (768px+)
-- `lg:` - Large screens (1024px+)
-- `xl:` - Extra large screens (1280px+)
-
-## 🚀 Deployment
-
-### Build for Production
-```bash
-pnpm run build
-# or
-npm run build
-```
-
-### Deploy to Vercel
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Deploy to Netlify
-```bash
-# Build the project
-pnpm run build
-
-# Deploy dist folder to Netlify
-```
-
-### Deploy to GitHub Pages
-```bash
-# Install gh-pages
-npm install --save-dev gh-pages
-
-# Add to package.json scripts:
-"deploy": "gh-pages -d dist"
-
-# Deploy
-npm run deploy
-```
-
-## 🛠️ Development
-
-### Available Scripts
-- `pnpm run dev` - Start development server
-- `pnpm run build` - Build for production
-- `pnpm run preview` - Preview production build
-- `pnpm run lint` - Run ESLint
-
-### Adding New Features
-1. Create components in `src/components/`
-2. Add styles to `src/App.css`
-3. Use Framer Motion for animations
-4. Follow the glassmorphism design pattern
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Islamic APIs** for prayer times and Quranic data
-- **Framer Motion** for smooth animations
-- **TailwindCSS** for utility-first styling
-- **TSParticles** for particle effects
-- **shadcn/ui** for beautiful UI components
-
-## 📞 Support
-
-If you have any questions or need help, please:
-- Open an issue on GitHub
-- Contact the maintainers
-- Check the documentation
-
----
-
-**May Allah bless your prayers and guide your path** 🤲
-
-Built with ❤️ for the Muslim community
-
+Reverse geocoding uses BigDataCloud's browser-friendly reverse geocode endpoint to turn device coordinates into a readable city and country.
