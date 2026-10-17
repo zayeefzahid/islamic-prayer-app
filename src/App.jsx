@@ -219,6 +219,28 @@ function App() {
 
         <main id="main-content" className="app-grid">
           <div className="primary-column">
+            {location.source === DEFAULT_LOCATION.source ? (
+              <section className="location-prompt" aria-labelledby="location-prompt-title">
+                <div>
+                  <h2 id="location-prompt-title">Allow location for local prayer times</h2>
+                  <p>
+                    Use your device location to find prayer times near you. Choose Allow
+                    when your browser asks. You can keep using {location.label} instead.
+                  </p>
+                  <p className="location-permission-help">
+                    Already blocked? Enable location in your browser’s site permissions, then try again.
+                  </p>
+                </div>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={locationBusy}
+                  onClick={useDeviceLocation}
+                >
+                  {locationBusy ? 'Checking location…' : 'Allow location'}
+                </button>
+              </section>
+            ) : null}
             {notice ? <NoticeBanner tone="info" message={notice} /> : null}
             {error ? <NoticeBanner tone="warning" message={error} /> : null}
 
@@ -260,6 +282,12 @@ function App() {
             {prayerData ? <DailyReflection /> : null}
           </div>
         </main>
+
+        <footer className="app-credit">
+          <span>Made for the Muslim community</span>
+          <span aria-hidden="true"> · </span>
+          <span>By <a href="https://zayeef.com" target="_blank" rel="noopener noreferrer">zayeef.com</a></span>
+        </footer>
       </div>
     </div>
   )
