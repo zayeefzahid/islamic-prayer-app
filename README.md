@@ -1,340 +1,118 @@
 # Islamic Prayer App
 
-<p align="center">
-  <strong>A calm, mobile-first prayer times app for daily use.</strong>
-</p>
+A responsive prayer times app with a live countdown, daily schedule, and Quran reflection. Built with React and Vite, with a monochrome interface, particle-wave artwork, and glass-style panels.
 
-<p align="center">
-  Track the next prayer, view the full daily schedule, adjust calculation settings, and read a small Quran reflection — all in a clean, responsive interface.
-</p>
+[Live demo](https://islamic-prayer.pages.dev/) · [Repository](https://github.com/zayeefzahid/islamic-prayer-app) · [Report an issue](https://github.com/zayeefzahid/islamic-prayer-app/issues)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-0A0A0A?style=for-the-badge&logo=react&logoColor=00FF41" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-0A0A0A?style=for-the-badge&logo=vite&logoColor=00FF41" alt="Vite" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-0A0A0A?style=for-the-badge&logo=tailwindcss&logoColor=00FF41" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/Aladhan_API-0A0A0A?style=for-the-badge&logoColor=00FF41" alt="Aladhan API" />
-</p>
+## Features
 
----
+- **Next prayer:** upcoming prayer, live countdown, scheduled time, and progress indicator.
+- **Daily schedule:** Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, with current and upcoming time states.
+- **Location:** browser geolocation and readable location names through reverse geocoding.
+- **Calculation preferences:** North America, Muslim World League, Karachi, Umm al-Qura, and Egyptian Authority conventions; Standard or Hanafi Asr calculation.
+- **Display preferences:** 12-hour or 24-hour time and system, light, or dark theme selection.
+- **Saved settings:** preferences persist in browser local storage.
+- **Quran reflection:** Quran 2:45 with Arabic text, translation, and optional recitation audio.
+- **Responsive UI:** mobile layouts, keyboard focus indicators, and reduced-motion support.
 
-## `> overview`
+## Getting started
 
-Islamic Prayer App is a peaceful, mobile-first web app built to make daily prayer times easy to check at a glance.
-
-The app highlights the **next prayer**, shows a **live countdown**, displays the full daily prayer schedule, and includes simple settings for location, calculation method, Asr school, time format, and theme preference.
-
-It is designed for repeated daily use: calm visuals, clear timing, fast loading, and no unnecessary clutter.
-
-```bash
-open app → check next prayer → view schedule → continue your day
-```
-
----
-
-## `> preview`
-
-<p align="center">
-  <img src="./preview.png" alt="Islamic Prayer App preview" width="900" />
-</p>
-
-<p align="center">
-  <em>Clean, responsive prayer time interface with next-prayer focus.</em>
-</p>
-
----
-
-## `> features`
-
-- **Next prayer hero**  
-  Displays the upcoming prayer prominently with a live countdown.
-
-- **Current prayer context**  
-  Shows whether a prayer is completed, current, next, or upcoming.
-
-- **Daily prayer schedule**  
-  Clean timeline-style schedule for Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.
-
-- **Browser geolocation**  
-  Detects the user’s location using the browser Geolocation API.
-
-- **Fallback location**  
-  Uses New York as a fallback if location permission is denied or unavailable.
-
-- **Prayer time API**  
-  Fetches prayer times from the Aladhan Prayer Times API.
-
-- **Calculation settings**  
-  Supports calculation convention and Asr school preferences.
-
-- **Time format options**  
-  Switch between 12-hour and 24-hour clock formats.
-
-- **Theme preferences**  
-  Includes light, dark, and system theme modes.
-
-- **Daily Quran reflection**  
-  Shows a small Quran reflection with optional recitation audio.
-
-- **Resilient UI states**  
-  Includes loading skeletons, fallback notices, and error recovery states.
-
----
-
-## `> why_i_built_this`
-
-Prayer time apps are used every day, so the experience needs to feel simple, readable, and calm.
-
-This project focuses on:
-
-- making the next prayer instantly visible
-- reducing visual noise
-- supporting mobile-first usage
-- handling real-world states like loading, errors, and denied location access
-- keeping the design peaceful and respectful
-
----
-
-## `> tech_stack`
-
-| Layer | Tech |
-|---|---|
-| Frontend | React 19 |
-| Build Tool | Vite 6 |
-| Styling | Tailwind CSS 4 |
-| Icons | Lucide React |
-| UI | shadcn-style primitives |
-| Prayer Times | Aladhan Prayer Times API |
-| Location | Browser Geolocation API |
-| Reverse Geocoding | BigDataCloud Reverse Geocoding |
-
----
-
-## `> project_structure`
-
-```txt
-islamic-prayer-app/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── AppHeader.jsx
-│   │   ├── DailyReflection.jsx
-│   │   ├── NextPrayerHero.jsx
-│   │   ├── PrayerSchedule.jsx
-│   │   ├── SettingsPanel.jsx
-│   │   ├── StatusStates.jsx
-│   │   └── ui/
-│   ├── lib/
-│   │   ├── prayer-times.js
-│   │   └── utils.js
-│   ├── services/
-│   │   └── prayer-api.js
-│   ├── App.css
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
----
-
-## `> getting_started`
-
-### Prerequisites
-
-Make sure you have Node.js installed.
-
-Recommended:
-
-```bash
-node -v
-```
-
-This project uses `pnpm`.
-
-### Clone the repository
+Install Node.js 22 LTS, then run:
 
 ```bash
 git clone https://github.com/zayeefzahid/islamic-prayer-app.git
 cd islamic-prayer-app
-```
-
-### Install dependencies
-
-```bash
 npx pnpm@10.4.1 install
-```
-
-### Start the development server
-
-```bash
 npx pnpm@10.4.1 dev
 ```
 
-Open the app in your browser:
+Open the local URL printed by Vite, usually `http://localhost:5173`.
 
-```txt
-http://localhost:5173
-```
+The repository specifies **pnpm 10.4.1** and includes a `pnpm-lock.yaml` file.
 
----
+## Commands
 
-## `> scripts`
+| Command | Purpose |
+| --- | --- |
+| `npx pnpm@10.4.1 dev` | Start the development server |
+| `npx pnpm@10.4.1 build` | Build the app into `dist/` |
+| `npx pnpm@10.4.1 preview` | Preview the production build locally |
+| `npx pnpm@10.4.1 lint` | Run ESLint |
 
-```bash
-npx pnpm@10.4.1 dev
-npx pnpm@10.4.1 lint
-npx pnpm@10.4.1 build
-npx pnpm@10.4.1 preview
-```
+## Configuration
 
-| Command | Description |
-|---|---|
-| `dev` | Start the local development server |
-| `lint` | Run lint checks |
-| `build` | Create a production build |
-| `preview` | Preview the production build locally |
+No API key or environment file is required for the default setup.
 
----
-
-## `> api_configuration`
-
-The app uses the public Aladhan Prayer Times API by default.
+To override the prayer API endpoint, create `.env.local` in the project root:
 
 ```env
 VITE_PRAYER_API_URL=https://api.aladhan.com/v1
 ```
 
-Reverse geocoding uses BigDataCloud’s browser-friendly endpoint to convert coordinates into a readable city and country.
+Restart the development server after changing environment variables. Production environment changes require a new build.
 
----
+## Location and fallback behavior
 
-## `> location_behavior`
+The app requests location permission on startup. If geolocation is denied or unavailable, it uses **New York, United States** and displays a notice. You can retry through **Settings → Use current**.
 
-The app tries to detect the user’s location through the browser.
+Prayer times are fetched from Aladhan. If the request fails, the app displays **fallback sample times** with a warning. These sample times are demonstration data and should not be treated as verified local prayer times.
 
-```txt
-Location allowed     → use device coordinates
-Location denied      → use fallback location
-Location unavailable → show fallback notice
+Browser geolocation requires HTTPS in production; localhost is supported during development. Prayer timing and countdown date handling currently use the browser's local clock and timezone.
+
+## Deploy to Cloudflare Pages
+
+Connect this repository and use the following build settings:
+
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Framework preset | React (Vite) |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Root directory | Repository root; leave blank |
+
+The default API endpoint is built in, so environment variables are optional. Commit and push your changes before deploying through the GitHub integration.
+
+The production build is a static site and can also be served by a static hosting provider that supports HTTPS.
+
+## Tech stack
+
+| Area | Technology |
+| --- | --- |
+| Interface | React 19 |
+| Development and build | Vite 6 |
+| Styling | CSS and Tailwind CSS 4 |
+| Icons | Lucide React |
+| UI primitives | Radix UI / shadcn-style components |
+| Prayer times | Aladhan Prayer Times API |
+| Location names | BigDataCloud reverse geocoding |
+| Recitation | Islamic Network audio CDN |
+
+## Project structure
+
+```text
+islamic-prayer-app/
+├── public/                  # Static assets and wave artwork
+├── src/
+│   ├── components/          # Header, countdown, schedule, settings, reflection
+│   │   └── ui/              # Reusable UI primitives
+│   ├── hooks/               # Shared React hooks
+│   ├── lib/prayer-times.js  # Prayer timeline, defaults, and formatting
+│   ├── services/prayer-api.js # API requests, location, and fallback data
+│   ├── App.jsx              # App state and feature orchestration
+│   ├── App.css              # Prayer interface styling
+│   ├── index.css            # Global styles and theme tokens
+│   └── main.jsx             # React entry point
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+└── vite.config.js
 ```
 
-Default fallback:
+## Contributing
 
-```txt
-New York, United States
-```
+Open an issue for a bug or proposed feature. For code changes, create a branch, keep changes focused, run lint and a production build, then open a pull request.
 
----
+## License
 
-## `> prayer_settings`
-
-The app supports user-adjustable prayer calculation settings, including:
-
-- calculation convention
-- Asr school
-- 12-hour or 24-hour time format
-- light, dark, or system theme
-
-These settings help make the app more flexible for different regions and preferences.
-
----
-
-## `> build`
-
-Create a production build:
-
-```bash
-npx pnpm@10.4.1 build
-```
-
-Preview the production build:
-
-```bash
-npx pnpm@10.4.1 preview
-```
-
----
-
-## `> deployment`
-
-This app can be deployed easily on static hosting platforms.
-
-Recommended platforms:
-
-| Platform | Notes |
-|---|---|
-| Vercel | Simple React/Vite deployment |
-| Netlify | Great for static frontend apps |
-| Cloudflare Pages | Fast global hosting |
-
-Make sure the environment variable is configured in the hosting dashboard:
-
-```env
-VITE_PRAYER_API_URL=https://api.aladhan.com/v1
-```
-
----
-
-## `> roadmap`
-
-- [ ] Add saved favorite locations
-- [ ] Add manual location search
-- [ ] Add monthly prayer calendar
-- [ ] Add Qibla direction
-- [ ] Add prayer notifications
-- [ ] Add offline-friendly caching
-- [ ] Add more Quran reflection options
-- [ ] Add multiple language support
-
----
-
-## `> accessibility`
-
-The interface is designed with readability and repeated daily use in mind.
-
-Focus areas:
-
-- clear visual hierarchy
-- readable spacing
-- mobile-first layout
-- strong contrast in light and dark mode
-- simple recovery states for errors and loading
-
----
-
-## `> contributing`
-
-Contributions are welcome.
-
-To contribute:
-
-```bash
-git checkout -b feat/your-feature
-git commit -m "feat: add your feature"
-git push origin feat/your-feature
-```
-
-Then open a pull request.
-
-For major changes, please open an issue first to discuss the idea.
-
----
-
-## `> license`
-
-MIT © 2025 Zayeef Zahid
-
----
-
-## `> links`
-
-- **Repository:** [github.com/zayeefzahid/islamic-prayer-app](https://github.com/zayeefzahid/islamic-prayer-app)
-- **Issues:** [github.com/zayeefzahid/islamic-prayer-app/issues](https://github.com/zayeefzahid/islamic-prayer-app/issues)
-
----
-
-<p align="center">
-  <strong>Built to make checking prayer times simple, calm, and clear.</strong>
-</p>
+[MIT](LICENSE)
