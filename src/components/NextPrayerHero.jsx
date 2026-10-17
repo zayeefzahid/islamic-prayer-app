@@ -12,6 +12,7 @@ function NextPrayerHero({
 }) {
   return (
     <section className="hero-card" aria-labelledby="next-prayer-title">
+      <p className="hero-intro">A moment of <em>peace.</em><br />A day of purpose.</p>
       <div className="hero-topline">
         <span className="section-eyebrow">Next prayer</span>
         <span className="source-chip">{date?.hijri || 'Hijri date loading'}</span>

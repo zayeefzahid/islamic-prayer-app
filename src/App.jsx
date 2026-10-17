@@ -202,7 +202,7 @@ function App() {
   const isRefreshing = status === 'refreshing' || locationBusy
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-theme={settings.theme}>
       <a className="skip-link" href="#main-content">
         Skip to prayer times
       </a>
