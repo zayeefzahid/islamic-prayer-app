@@ -95,7 +95,7 @@ export const PRAYER_SEQUENCE = [
   },
 ]
 
-const TIME_MATCHER = /(\d{1,2}):(\d{2})/
+const TIME_MATCHER = /^\s*(\d{1,2}):(\d{2})(?:\s*\([^)]*\))?\s*$/
 
 function addDays(date, days) {
   const nextDate = new Date(date)
@@ -122,7 +122,7 @@ export function getCalculationMethodLabel(value) {
 export function normalizePrayerTime(time) {
   const match = String(time ?? '').match(TIME_MATCHER)
 
-  if (!match) {
+  if (!match || Number(match[1]) > 23 || Number(match[2]) > 59) {
     return ''
   }
 
@@ -131,7 +131,11 @@ export function normalizePrayerTime(time) {
 
 export function prayerDateFromTime(time, date = new Date()) {
   const normalizedTime = normalizePrayerTime(time)
-  const [hours = '0', minutes = '0'] = normalizedTime.split(':')
+  if (!normalizedTime) {
+    return new Date(NaN)
+  }
+
+  const [hours, minutes] = normalizedTime.split(':')
   const prayerDate = new Date(date)
 
   prayerDate.setHours(Number(hours), Number(minutes), 0, 0)
@@ -141,6 +145,10 @@ export function prayerDateFromTime(time, date = new Date()) {
 
 export function formatPrayerTime(time, format = '12h') {
   const prayerDate = prayerDateFromTime(time)
+
+  if (Number.isNaN(prayerDate.getTime())) {
+    return '—'
+  }
 
   return new Intl.DateTimeFormat('en', {
     hour: format === '24h' ? '2-digit' : 'numeric',
@@ -196,6 +204,10 @@ export function getPrayerTimeline(timings, now = new Date()) {
   }).filter((prayer) => prayer.time)
 
   const prayerOnlySchedule = schedule.filter((prayer) => prayer.type === 'prayer')
+  if (prayerOnlySchedule.length === 0) {
+    return null
+  }
+
   const nextPrayerIndex = prayerOnlySchedule.findIndex((prayer) => prayer.date > now)
   const nextPrayer =
     nextPrayerIndex === -1

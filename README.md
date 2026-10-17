@@ -71,6 +71,7 @@ Open the URL printed in your terminal, usually **http://localhost:5173**. No API
 | `npx pnpm@10.4.1 build` | Generate the production build in `dist/` |
 | `npx pnpm@10.4.1 preview` | Serve the production build locally |
 | `npx pnpm@10.4.1 lint` | Run ESLint |
+| `npx pnpm@10.4.1 test` | Run the Node.js test suite |
 
 ## Configuration
 
@@ -117,7 +118,7 @@ The `dist/` directory can also be served by a static hosting provider with HTTPS
 
 ## Built with
 
-**React 19** · **Vite 6** · **Tailwind CSS 4** · **Lucide React** · **Radix UI**
+**React 19** · **Vite 6** · **Tailwind CSS 4** · **Lucide React**
 
 Prayer times come from **Aladhan**, readable location names from **BigDataCloud**, and recitation audio from **Islamic Network**. Fonts are loaded through **Google Fonts**.
 
@@ -130,8 +131,7 @@ islamic-prayer-app/
 ├── docs/                     # Repository artwork
 ├── src/
 │   ├── components/           # Prayer UI, settings, reflection, and states
-│   │   └── ui/               # Reusable UI primitives
-│   ├── hooks/                # Shared React hooks
+│   ├── hooks/                # Location, settings, and shared React hooks
 │   ├── lib/
 │   │   └── prayer-times.js   # Timeline, defaults, and time formatting
 │   ├── services/
@@ -140,6 +140,7 @@ islamic-prayer-app/
 │   ├── App.css               # Application styling
 │   ├── index.css             # Global styles and theme tokens
 │   └── main.jsx              # React entry point
+├── tests/                    # Timeline, settings, and API regression tests
 ├── index.html
 ├── package.json
 ├── pnpm-lock.yaml
@@ -154,7 +155,7 @@ Bug reports, accessibility improvements, and focused pull requests are welcome.
 
 1. Open an [issue](https://github.com/zayeefzahid/islamic-prayer-app/issues) to discuss a substantial change.
 2. Fork the repository and create a branch for your work.
-3. Run `npx pnpm@10.4.1 lint` and `npx pnpm@10.4.1 build`.
+3. Run `npx pnpm@10.4.1 test`, `npx pnpm@10.4.1 lint`, and `npx pnpm@10.4.1 build`.
 4. Open a pull request describing the change and how you checked it.
 
 ## License

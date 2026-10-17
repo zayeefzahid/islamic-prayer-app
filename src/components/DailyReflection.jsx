@@ -13,28 +13,45 @@ function DailyReflection() {
   const audioRef = useRef(null)
 
   useEffect(() => {
+    const audio = new Audio(dailyReflection.audio)
+    audio.preload = 'none'
+    audioRef.current = audio
+
+    const onPlay = () => setIsPlaying(true)
+    const onPause = () => setIsPlaying(false)
+    audio.addEventListener('play', onPlay)
+    audio.addEventListener('pause', onPause)
+    audio.addEventListener('ended', onPause)
+    audio.addEventListener('error', onPause)
+
     return () => {
-      audioRef.current?.pause()
+      audio.removeEventListener('play', onPlay)
+      audio.removeEventListener('pause', onPause)
+      audio.removeEventListener('ended', onPause)
+      audio.removeEventListener('error', onPause)
+      audio.pause()
+      audio.removeAttribute('src')
+      audio.load()
+      audioRef.current = null
     }
   }, [])
 
   const toggleAudio = async () => {
-    if (isPlaying) {
-      audioRef.current?.pause()
-      setIsPlaying(false)
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (!audio.paused) {
+      audio.pause()
       return
     }
 
-    const audio = new Audio(dailyReflection.audio)
-    audioRef.current = audio
-    audio.onended = () => setIsPlaying(false)
-
     try {
       await audio.play()
-      setIsPlaying(true)
     } catch (error) {
-      console.warn('Unable to play Quran recitation:', error)
-      setIsPlaying(false)
+      if (audioRef.current === audio && error.name !== 'AbortError') {
+        setIsPlaying(false)
+        console.warn('Unable to play Quran recitation:', error)
+      }
     }
   }
 
@@ -55,7 +72,7 @@ function DailyReflection() {
 
       <div className="reflection-footer">
         <span>{dailyReflection.reference}</span>
-        <button className="icon-button" onClick={toggleAudio} type="button" aria-label="Play verse audio">
+        <button className="icon-button" onClick={toggleAudio} type="button" aria-label={isPlaying ? 'Pause verse audio' : 'Play verse audio'} aria-pressed={isPlaying}>
           {isPlaying ? <Pause size={17} /> : <Volume2 size={17} />}
         </button>
       </div>

@@ -3,17 +3,25 @@ import {
   formatCoordinates,
   formatReadableDate,
   getCalculationMethodLabel,
-} from '@/lib/prayer-times.js'
+  normalizePrayerTime,
+  PRAYER_SEQUENCE,
+} from '../lib/prayer-times.js'
 
-const PRAYER_API_BASE = (import.meta.env.VITE_PRAYER_API_URL || 'https://api.aladhan.com/v1').replace(
+const PRAYER_API_BASE = (import.meta.env?.VITE_PRAYER_API_URL || 'https://api.aladhan.com/v1').replace(
   /\/$/,
   ''
 )
 const REVERSE_GEOCODE_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client'
 
-async function fetchJson(url, timeout = 10000) {
+async function fetchJson(url, timeout = 10000, signal) {
   const controller = new AbortController()
-  const timeoutId = window.setTimeout(() => controller.abort(), timeout)
+  const abort = () => controller.abort()
+  if (signal?.aborted) {
+    controller.abort()
+  } else {
+    signal?.addEventListener('abort', abort, { once: true })
+  }
+  const timeoutId = globalThis.setTimeout(abort, timeout)
 
   try {
     const response = await fetch(url, {
@@ -27,9 +35,10 @@ async function fetchJson(url, timeout = 10000) {
       throw new Error(`Request failed with status ${response.status}`)
     }
 
-    return response.json()
+    return await response.json()
   } finally {
-    window.clearTimeout(timeoutId)
+    globalThis.clearTimeout(timeoutId)
+    signal?.removeEventListener('abort', abort)
   }
 }
 
@@ -134,7 +143,7 @@ export async function enrichLocationName(location) {
   }
 }
 
-export async function fetchPrayerTimes({ location = DEFAULT_LOCATION, settings }) {
+export async function fetchPrayerTimes({ location = DEFAULT_LOCATION, settings, signal }) {
   const url = new URL(`${PRAYER_API_BASE}/timings/${Math.floor(Date.now() / 1000)}`)
 
   url.searchParams.set('latitude', location.latitude)
@@ -142,10 +151,17 @@ export async function fetchPrayerTimes({ location = DEFAULT_LOCATION, settings }
   url.searchParams.set('method', settings.calculationMethod)
   url.searchParams.set('school', settings.asrSchool)
 
-  const payload = await fetchJson(url)
+  const payload = await fetchJson(url, 10000, signal)
 
   if (payload.code !== 200 || !payload.data?.timings) {
     throw new Error(payload.status || 'Prayer time response was not usable.')
+  }
+
+  const hasCompleteSchedule = PRAYER_SEQUENCE.every(
+    ({ key }) => normalizePrayerTime(payload.data.timings[key]) !== ''
+  )
+  if (!hasCompleteSchedule) {
+    throw new Error('Prayer time response contains missing or invalid times.')
   }
 
   return normalizePrayerResponse(payload.data, location, settings)

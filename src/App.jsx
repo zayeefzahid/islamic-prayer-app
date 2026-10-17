@@ -1,50 +1,34 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Github, Star } from 'lucide-react'
 import AppHeader from '@/components/AppHeader.jsx'
 import DailyReflection from '@/components/DailyReflection.jsx'
 import NextPrayerHero from '@/components/NextPrayerHero.jsx'
 import PrayerSchedule from '@/components/PrayerSchedule.jsx'
 import SettingsPanel from '@/components/SettingsPanel.jsx'
 import { ErrorState, LoadingState, NoticeBanner } from '@/components/StatusStates.jsx'
-import { DEFAULT_LOCATION, DEFAULT_SETTINGS, getPrayerTimeline } from '@/lib/prayer-times.js'
-import {
-  enrichLocationName,
-  fetchPrayerTimes,
-  getDeviceLocation,
-  getFallbackPrayerData,
-} from '@/services/prayer-api.js'
+import { useLocation } from '@/hooks/use-location.js'
+import { useSettings } from '@/hooks/use-settings.js'
+import { DEFAULT_LOCATION, getPrayerTimeline } from '@/lib/prayer-times.js'
+import { fetchPrayerTimes, getFallbackPrayerData } from '@/services/prayer-api.js'
 import './App.css'
 
-const SETTINGS_STORAGE_KEY = 'prayer-app-settings'
-
-function readStoredSettings() {
-  if (typeof window === 'undefined') {
-    return DEFAULT_SETTINGS
-  }
-
-  try {
-    const savedSettings = window.localStorage.getItem(SETTINGS_STORAGE_KEY)
-    return savedSettings
-      ? { ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) }
-      : DEFAULT_SETTINGS
-  } catch (error) {
-    console.warn('Unable to read prayer app settings:', error)
-    return DEFAULT_SETTINGS
-  }
-}
-
 function App() {
-  const [settings, setSettings] = useState(readStoredSettings)
-  const [location, setLocation] = useState(DEFAULT_LOCATION)
-  const [locationReady, setLocationReady] = useState(false)
-  const [locationBusy, setLocationBusy] = useState(false)
+  const { settings, updateSetting } = useSettings()
+  const {
+    location,
+    ready: locationReady,
+    busy: locationBusy,
+    notice,
+    requestLocation,
+  } = useLocation()
   const [prayerData, setPrayerData] = useState(null)
   const [status, setStatus] = useState('loading')
-  const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [now, setNow] = useState(() => new Date())
   const { asrSchool, calculationMethod } = settings
+  const scheduleDay = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -55,77 +39,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings))
-  }, [settings])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-    const applyTheme = () => {
-      const shouldUseDarkTheme =
-        settings.theme === 'dark' || (settings.theme === 'system' && mediaQuery.matches)
-
-      document.documentElement.classList.toggle('dark', shouldUseDarkTheme)
-      document.documentElement.style.colorScheme = shouldUseDarkTheme ? 'dark' : 'light'
-    }
-
-    applyTheme()
-    mediaQuery.addEventListener('change', applyTheme)
-
-    return () => mediaQuery.removeEventListener('change', applyTheme)
-  }, [settings.theme])
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function resolveLocation() {
-      setLocationBusy(true)
-
-      try {
-        const deviceLocation = await getDeviceLocation()
-        const namedLocation = await enrichLocationName(deviceLocation)
-
-        if (!cancelled) {
-          setLocation(namedLocation)
-          setNotice('')
-        }
-      } catch (locationError) {
-        if (!cancelled) {
-          setLocation(DEFAULT_LOCATION)
-          setNotice(
-            `Location permission was unavailable, so the app is using ${DEFAULT_LOCATION.label}.`
-          )
-          console.warn('Using default prayer location:', locationError)
-        }
-      } finally {
-        if (!cancelled) {
-          setLocationReady(true)
-          setLocationBusy(false)
-        }
-      }
-    }
-
-    resolveLocation()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  useEffect(() => {
     if (!locationReady) {
       return
     }
 
     let cancelled = false
+    const controller = new AbortController()
 
     async function loadPrayerTimes() {
       const prayerSettings = { asrSchool, calculationMethod }
@@ -134,7 +53,11 @@ function App() {
       setError('')
 
       try {
-        const livePrayerData = await fetchPrayerTimes({ location, settings: prayerSettings })
+        const livePrayerData = await fetchPrayerTimes({
+          location,
+          settings: prayerSettings,
+          signal: controller.signal,
+        })
 
         if (!cancelled) {
           setPrayerData(livePrayerData)
@@ -156,8 +79,9 @@ function App() {
 
     return () => {
       cancelled = true
+      controller.abort()
     }
-  }, [asrSchool, calculationMethod, locationReady, location, refreshKey])
+  }, [asrSchool, calculationMethod, locationReady, location, refreshKey, scheduleDay])
 
   const timeline = useMemo(() => {
     if (!prayerData?.timings) {
@@ -166,33 +90,6 @@ function App() {
 
     return getPrayerTimeline(prayerData.timings, now)
   }, [now, prayerData])
-
-  const updateSetting = (key, value) => {
-    setSettings((currentSettings) => ({
-      ...currentSettings,
-      [key]: value,
-    }))
-  }
-
-  const useDeviceLocation = async () => {
-    setLocationBusy(true)
-    setLocationReady(false)
-    setNotice('Checking your device location...')
-    setError('')
-
-    try {
-      const deviceLocation = await getDeviceLocation()
-      const namedLocation = await enrichLocationName(deviceLocation)
-      setLocation(namedLocation)
-      setNotice('Using your device location for today\'s prayer times.')
-    } catch (locationError) {
-      setNotice(`Location could not be updated. Keeping ${location.label}.`)
-      console.warn('Device location request failed:', locationError)
-    } finally {
-      setLocationReady(true)
-      setLocationBusy(false)
-    }
-  }
 
   const refreshPrayerTimes = () => {
     setRefreshKey((currentKey) => currentKey + 1)
@@ -235,7 +132,7 @@ function App() {
                   className="secondary-button"
                   type="button"
                   disabled={locationBusy}
-                  onClick={useDeviceLocation}
+                  onClick={requestLocation}
                 >
                   {locationBusy ? 'Checking location…' : 'Allow location'}
                 </button>
@@ -274,7 +171,7 @@ function App() {
               isBusy={isRefreshing}
               isOpen={settingsOpen}
               location={location}
-              onUseDeviceLocation={useDeviceLocation}
+              onUseDeviceLocation={requestLocation}
               onUpdateSetting={updateSetting}
               settings={settings}
             />
@@ -287,6 +184,16 @@ function App() {
           <span>Made for the Muslim community</span>
           <span aria-hidden="true"> · </span>
           <span>By <a href="https://zayeef.com" target="_blank" rel="noopener noreferrer">zayeef.com</a></span>
+          <a
+            className="github-star-link"
+            href="https://github.com/zayeefzahid/islamic-prayer-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github size={15} aria-hidden="true" />
+            Star on GitHub
+            <Star size={14} aria-hidden="true" />
+          </a>
         </footer>
       </div>
     </div>
