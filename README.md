@@ -16,6 +16,7 @@ A responsive, open-source companion for the Muslim community.
 
 <br />
 
+[![CI](https://github.com/zayeefzahid/islamic-prayer-app/actions/workflows/ci.yml/badge.svg)](https://github.com/zayeefzahid/islamic-prayer-app/actions/workflows/ci.yml)
 [![React 19](https://img.shields.io/badge/React-19-149eca?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
 [![Vite 6](https://img.shields.io/badge/Vite-6-646cff?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -148,6 +149,12 @@ islamic-prayer-app/
 ```
 
 </details>
+
+## Automated checks
+
+GitHub Actions runs tests, lint, and a production build on pull requests and pushes to `main`. You can also run **CI** manually from the repository's Actions tab. The workflow uses Node.js 22 and the pnpm version pinned in `package.json`.
+
+Dependency installation uses the lockfile, and newer commits cancel older runs on the same branch or pull request. View results in the [Actions tab](https://github.com/zayeefzahid/islamic-prayer-app/actions/workflows/ci.yml).
 
 ## Contributing
 
