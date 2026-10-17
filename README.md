@@ -1,118 +1,172 @@
-# Islamic Prayer App
+<div align="center">
 
-A responsive prayer times app with a live countdown, daily schedule, and Quran reflection. Built with React and Vite, with a monochrome interface, particle-wave artwork, and glass-style panels.
+<img src="docs/readme-banner.svg" alt="Islamic Prayer App — A quiet moment. A meaningful day." width="100%" />
 
-[Live demo](https://islamic-prayer.pages.dev/) · [Repository](https://github.com/zayeefzahid/islamic-prayer-app) · [Report an issue](https://github.com/zayeefzahid/islamic-prayer-app/issues)
+<br />
+<br />
+
+**Stay connected to your prayers, wherever the day takes you.**
+
+Live prayer times, a next-prayer countdown, and a Quran reflection.<br />
+A responsive, open-source companion for the Muslim community.
+
+<br />
+
+[**Open live demo ↗**](https://islamic-prayer.pages.dev/) &nbsp; · &nbsp; [Report a bug](https://github.com/zayeefzahid/islamic-prayer-app/issues) &nbsp; · &nbsp; [Request a feature](https://github.com/zayeefzahid/islamic-prayer-app/issues)
+
+<br />
+
+[![React 19](https://img.shields.io/badge/React-19-149eca?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
+[![Vite 6](https://img.shields.io/badge/Vite-6-646cff?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-a3b8ab?style=flat-square)](LICENSE)
+
+<br />
+
+[Features](#features) · [Quick start](#quick-start) · [Configuration](#configuration) · [Deployment](#deployment) · [Contributing](#contributing)
+
+</div>
+
+<br />
+
+## Overview
+
+Islamic Prayer App brings the next prayer into focus with a live countdown, a daily schedule, and a verse to reflect on. Adjust your calculation convention, Asr school, clock format, and theme from one place; your preferences are saved for the next visit.
+
+The interface pairs monochrome typography with particle-wave artwork and glass-style panels, adapting from desktop to mobile.
 
 ## Features
 
-- **Next prayer:** upcoming prayer, live countdown, scheduled time, and progress indicator.
-- **Daily schedule:** Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, with current and upcoming time states.
-- **Location:** browser geolocation and readable location names through reverse geocoding.
-- **Calculation preferences:** North America, Muslim World League, Karachi, Umm al-Qura, and Egyptian Authority conventions; Standard or Hanafi Asr calculation.
-- **Display preferences:** 12-hour or 24-hour time and system, light, or dark theme selection.
-- **Saved settings:** preferences persist in browser local storage.
-- **Quran reflection:** Quran 2:45 with Arabic text, translation, and optional recitation audio.
-- **Responsive UI:** mobile layouts, keyboard focus indicators, and reduced-motion support.
+| Your day, at a glance | Preferences that stay with you |
+| :--- | :--- |
+| **Live countdown** — see the next prayer and time remaining. | **Calculation conventions** — choose from five regional methods. |
+| **Daily schedule** — Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha. | **Asr school** — Standard or Hanafi calculation. |
+| **Local prayer times** — use your device location, with a permission prompt and retry action. | **Clock format** — switch between 12-hour and 24-hour time. |
+| **Prayer status** — identify completed, current, next, and upcoming times. | **Appearance** — system, light, and dark theme preferences. |
+| **Quran reflection** — Quran 2:45, Arabic text, translation, and optional recitation. | **Saved settings** — preferences persist in browser local storage. |
 
-## Getting started
+Keyboard focus indicators, loading states, fallback notices, and reduced-motion support are included.
 
-Install Node.js 22 LTS, then run:
+## Quick start
+
+**Prerequisites:** Node.js 22 and pnpm 10.4.1. The commands below run the repository's specified pnpm version through `npx`.
 
 ```bash
+# Clone the repository
 git clone https://github.com/zayeefzahid/islamic-prayer-app.git
 cd islamic-prayer-app
+
+# Install dependencies and start development
 npx pnpm@10.4.1 install
 npx pnpm@10.4.1 dev
 ```
 
-Open the local URL printed by Vite, usually `http://localhost:5173`.
+Open the URL printed in your terminal, usually **http://localhost:5173**. No API key is required.
 
-The repository specifies **pnpm 10.4.1** and includes a `pnpm-lock.yaml` file.
+### Available commands
 
-## Commands
-
-| Command | Purpose |
-| --- | --- |
+| Command | Description |
+| :--- | :--- |
 | `npx pnpm@10.4.1 dev` | Start the development server |
-| `npx pnpm@10.4.1 build` | Build the app into `dist/` |
-| `npx pnpm@10.4.1 preview` | Preview the production build locally |
+| `npx pnpm@10.4.1 build` | Generate the production build in `dist/` |
+| `npx pnpm@10.4.1 preview` | Serve the production build locally |
 | `npx pnpm@10.4.1 lint` | Run ESLint |
 
 ## Configuration
 
-No API key or environment file is required for the default setup.
-
-To override the prayer API endpoint, create `.env.local` in the project root:
+The default setup works without an environment file. To use a different prayer API endpoint, add a `.env.local` file at the project root:
 
 ```env
 VITE_PRAYER_API_URL=https://api.aladhan.com/v1
 ```
 
-Restart the development server after changing environment variables. Production environment changes require a new build.
+Restart the development server after changing this value. Production changes require a new build.
 
-## Location and fallback behavior
+<details>
+<summary><strong>Location, calculation methods, and fallback behavior</strong></summary>
 
-The app requests location permission on startup. If geolocation is denied or unavailable, it uses **New York, United States** and displays a notice. You can retry through **Settings → Use current**.
+<br />
 
-Prayer times are fetched from Aladhan. If the request fails, the app displays **fallback sample times** with a warning. These sample times are demonstration data and should not be treated as verified local prayer times.
+- **Location access:** the app requests browser geolocation on startup. The **Allow location** button lets you retry, and **Settings → Use current** refreshes your location.
+- **Permission denied:** the app uses **New York, United States**, with a visible notice. If permission is blocked, enable it in your browser's site settings before retrying.
+- **Calculation methods:** North America, Muslim World League, Karachi, Umm al-Qura, Makkah, and Egyptian Authority.
+- **Asr calculation:** Standard (Shafi, Maliki, and Hanbali) or Hanafi.
+- **Connection failure:** if the prayer API cannot be reached, the app displays clearly labeled **sample times**. These are demonstration data, not verified local prayer times.
+- **Clock and timezone:** date handling and countdown calculations currently use the browser's local clock and timezone.
+- **Secure context:** geolocation requires HTTPS in production; localhost works during development.
 
-Browser geolocation requires HTTPS in production; localhost is supported during development. Prayer timing and countdown date handling currently use the browser's local clock and timezone.
+</details>
 
-## Deploy to Cloudflare Pages
+## Deployment
 
-Connect this repository and use the following build settings:
+The app is hosted at **[islamic-prayer.pages.dev](https://islamic-prayer.pages.dev/)**.
+
+To deploy your own copy with Cloudflare Pages, connect your fork and configure:
 
 | Setting | Value |
-| --- | --- |
+| :--- | :--- |
 | Production branch | `main` |
 | Framework preset | React (Vite) |
 | Build command | `npm run build` |
 | Build output directory | `dist` |
-| Root directory | Repository root; leave blank |
+| Root directory | Leave blank |
 
-The default API endpoint is built in, so environment variables are optional. Commit and push your changes before deploying through the GitHub integration.
+Environment variables are optional with the default API endpoint. Commit and push your changes before triggering a deployment.
 
-The production build is a static site and can also be served by a static hosting provider that supports HTTPS.
+The `dist/` directory can also be served by a static hosting provider with HTTPS.
 
-## Tech stack
+## Built with
 
-| Area | Technology |
-| --- | --- |
-| Interface | React 19 |
-| Development and build | Vite 6 |
-| Styling | CSS and Tailwind CSS 4 |
-| Icons | Lucide React |
-| UI primitives | Radix UI / shadcn-style components |
-| Prayer times | Aladhan Prayer Times API |
-| Location names | BigDataCloud reverse geocoding |
-| Recitation | Islamic Network audio CDN |
+**React 19** · **Vite 6** · **Tailwind CSS 4** · **Lucide React** · **Radix UI**
 
-## Project structure
+Prayer times come from **Aladhan**, readable location names from **BigDataCloud**, and recitation audio from **Islamic Network**. Fonts are loaded through **Google Fonts**.
+
+<details>
+<summary><strong>Explore the project structure</strong></summary>
 
 ```text
 islamic-prayer-app/
-├── public/                  # Static assets and wave artwork
+├── public/                   # Static assets and wave artwork
+├── docs/                     # Repository artwork
 ├── src/
-│   ├── components/          # Header, countdown, schedule, settings, reflection
-│   │   └── ui/              # Reusable UI primitives
-│   ├── hooks/               # Shared React hooks
-│   ├── lib/prayer-times.js  # Prayer timeline, defaults, and formatting
-│   ├── services/prayer-api.js # API requests, location, and fallback data
-│   ├── App.jsx              # App state and feature orchestration
-│   ├── App.css              # Prayer interface styling
-│   ├── index.css            # Global styles and theme tokens
-│   └── main.jsx             # React entry point
+│   ├── components/           # Prayer UI, settings, reflection, and states
+│   │   └── ui/               # Reusable UI primitives
+│   ├── hooks/                # Shared React hooks
+│   ├── lib/
+│   │   └── prayer-times.js   # Timeline, defaults, and time formatting
+│   ├── services/
+│   │   └── prayer-api.js     # API requests, geolocation, and fallbacks
+│   ├── App.jsx               # App state and feature orchestration
+│   ├── App.css               # Application styling
+│   ├── index.css             # Global styles and theme tokens
+│   └── main.jsx              # React entry point
 ├── index.html
 ├── package.json
 ├── pnpm-lock.yaml
 └── vite.config.js
 ```
 
+</details>
+
 ## Contributing
 
-Open an issue for a bug or proposed feature. For code changes, create a branch, keep changes focused, run lint and a production build, then open a pull request.
+Bug reports, accessibility improvements, and focused pull requests are welcome.
+
+1. Open an [issue](https://github.com/zayeefzahid/islamic-prayer-app/issues) to discuss a substantial change.
+2. Fork the repository and create a branch for your work.
+3. Run `npx pnpm@10.4.1 lint` and `npx pnpm@10.4.1 build`.
+4. Open a pull request describing the change and how you checked it.
 
 ## License
 
-[MIT](LICENSE)
+Distributed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**Made for the Muslim community.**
+
+Created by [Zayeef](https://zayeef.com) · [Try the app](https://islamic-prayer.pages.dev/)
+
+</div>

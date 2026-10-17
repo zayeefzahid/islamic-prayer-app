@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Islamic Prayer App</title>
+  <desc id="desc">A quiet moment. A meaningful day. Prayer times, daily reflection, and a little more peace.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#394644" stop-opacity=".55"/><stop offset="1" stop-color="#090c0c" stop-opacity="0"/></radialGradient>
+    <linearGradient id="silver" x2=".6" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#7e9490"/></linearGradient>
+    <mask id="moon"><circle cx="975" cy="155" r="73" fill="#fff"/><circle cx="1004" cy="132" r="68" fill="#000"/></mask>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#fff" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect x="1" y="1" width="1198" height="358" rx="20" fill="#090c0c" stroke="#293431"/>
+  <rect x="1" y="1" width="1198" height="358" rx="20" fill="url(#grid)"/>
+  <ellipse cx="970" cy="160" rx="310" ry="250" fill="url(#glow)"/>
+  <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <text x="64" y="78" fill="#9baca6" font-size="12" letter-spacing="3">YOUR DAILY SALAH COMPANION</text>
+    <text x="60" y="152" fill="#f4f7f5" font-size="54" font-weight="600" letter-spacing="-2">Islamic Prayer App</text>
+    <text x="64" y="200" fill="#bcc9c2" font-size="23">A quiet moment. A meaningful day.</text>
+    <text x="64" y="270" fill="#8c9e95" font-size="15">Prayer times · Daily reflection · Built for the Muslim community</text>
+  </g>
+  <circle cx="975" cy="155" r="73" fill="url(#silver)" mask="url(#moon)"/>
+  <g fill="#d3e3dc"><circle cx="1061" cy="86" r="2"/><circle cx="905" cy="74" r="1.5"/><circle cx="1089" cy="218" r="1.5"/><path d="m1042 160 2.5 7.5 7.5 2.5-7.5 2.5-2.5 7.5-2.5-7.5-7.5-2.5 7.5-2.5z"/></g>
+</svg>
